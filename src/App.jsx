@@ -7,7 +7,7 @@ const App = () => {
     <div>
       <MyWallet/>
     </div>
-  )
+  );
 }
 
-export default App
+export default App;
