@@ -6,6 +6,10 @@ const ModalWallet = () => {
     const [showModal, setShowModal] = useState(false);
     const [isDeposit, setIsDeposit] = useState(true);
 
+    const resetForm =() =>{
+        document.querySelector('#amount').value='';
+    }
+
     const handleTransaction = () => {
         const amount = parseFloat(document.getElementById('amount').value);
         if (amount <= 0 || (isDeposit === false && amount > balance)) {
@@ -15,14 +19,15 @@ const ModalWallet = () => {
         setBalance(newBalance);
         const newHistory = [...history, {
             type: isDeposit ? 'Deposit' : 'Withdraw',
+            alert: isDeposit ? 'success' : 'danger',
             amount,
             time: new Date().toLocaleString()
         }];
         setHistory(newHistory);
-
         setShowModal(false);
+        resetForm();
     }
-    
+
     return (
         <div className='container text-center bg-black text-white pt-5'>
             <h3 className='fw-bold text-white'>My Wallet</h3>
@@ -53,6 +58,7 @@ const ModalWallet = () => {
                             </div>
                             <div className="modal-body text-black text-start">Amount
                                 <input type="text" className='form-control' name='money' placeholder="input money" id='amount' />
+                                <p id='spThongBao'></p>
                             </div>
                             <div className="modal-footer">
                                 <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">
@@ -67,7 +73,7 @@ const ModalWallet = () => {
             {/* Optional: Place to the bottom of scripts */}
             <h3 className='mt-5'>Transaction History</h3>
             {history.map((item, index) => (
-                <div key={index} className='alert alert-success w-100 rounded rounded-2 mb-0'>
+                <div key={index} className={`alert alert-${item.alert} w-100 rounded rounded-2 mb-0`}>
                     {/* {item.type} {item.amount} VNĐ - {item.time} */}
                     <table className='w-100'>
                         <tbody>
